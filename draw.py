@@ -65,5 +65,10 @@ lines = gz.Group(lines_list)
 lines.draw(surface)
 
 
+
 surface.write_to_png("circle.png")
 
+
+
+def position():
+    pass
