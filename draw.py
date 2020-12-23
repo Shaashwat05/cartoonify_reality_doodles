@@ -34,39 +34,49 @@ def unpack_drawings(filename):
             except struct.error:
                 break
 
-i = 0
-
-for drawing in unpack_drawings('dataset/nose.bin'):
-    # do something with the drawing
-    #print(np.array(drawing['image'][0]).shape)
-
-    if(i==10):
-        x = drawing['image']
-    i+=1
-
-lines_list = []
-
-surface = gz.Surface(width=720, height=560) # in pixels
-
-rect = gz.rectangle(lx=720, ly=560, xy=(360,280), fill=(1,1,1))
-
-rect.draw(surface)
 
 
-for stroke in x:
-    x, y = stroke
-    points = list(zip(x, y))
-    line = gz.polyline(points=points, stroke=[0,0,0], stroke_width=2)
-    lines_list.append(line)
+def get_objects(classes):
+
+    objs = []
+    LABELS =open("yolo/coco.names").read().strip().split("\n")
+
+    for y_class in classes:
+
+        try:
+            #print('dataset/'+str(LABELS[y_class])+'.bin')
+            arr = unpack_drawings('dataset/'+str(LABELS[y_class])+'.bin')
+            
+            num = np.random.randint(0,50)
+            for drawing in arr:
+                objs.append(drawing)
+                break
+
+        except:
+            continue
+    
+    return objs
 
 
-lines = gz.Group(lines_list)
+def drawing(objs):
 
-lines.draw(surface)
+    surface = gz.Surface(width=720, height=560) # in pixels
+    rect = gz.rectangle(lx=720, ly=560, xy=(360,280), fill=(1,1,1))
+    rect.draw(surface)
+
+    for strokes in objs:
+        lines_list = []
+        for stroke in strokes['image']:
+            x, y = stroke
+            points = list(zip(x, y))
+            line = gz.polyline(points=points, stroke=[0,0,0], stroke_width=2)
+            lines_list.append(line)
 
 
+        lines = gz.Group(lines_list)
+        lines.draw(surface)
 
-surface.write_to_png("circle.png")
+    surface.write_to_png("circle.png")
 
 
 
