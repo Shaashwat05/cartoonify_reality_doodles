@@ -47,16 +47,19 @@ def get_objects(boxes, classes):
     i=-1
     for y_class in classes:
         i+=1
-        try:
+        if(path.exists('dataset/'+str(LABELS[y_class])+'.bin')):
             arr = unpack_drawings('dataset/'+str(LABELS[y_class])+'.bin')
-            if(path.exists('dataset/'+str(LABELS[y_class])+'.bin')):
-                boxes2.append(boxes[i])
+            boxes2.append(boxes[i])
             num = np.random.randint(0,50)
             for drawing in arr:
                 objs.append(drawing)
                 break
-        except:
+        elif(y_class == 'person'):
+            pass
+
+        else:
             continue
+
     
     return boxes2, objs
 
