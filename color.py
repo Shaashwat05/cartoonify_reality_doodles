@@ -1,18 +1,18 @@
 import cv2
-import numpy
+import numpy as np
 
-def coloring(image):
+def coloring(boxes, image):
 
+    print(image.shape)
+
+    colors = []
+    for i in range(len(boxes)):
+        x, y, w, h = boxes[i]
+        colors.append((np.mean(image[x:x+w, y:y+h, 0]), np.mean(image[x:x+w, y:y+h, 1]), np.mean(image[x:x+w, y:y+h, 2])))
     
+    print(colors)
+    return colors
 
-    doodle = cv2.imread("gallery/circle.png")
-
-    image = cv2.resize(image, (doodle.shape[1], doodle.shape[0]))
+#coloring(cv2.imread("gallery/image1.png"))
 
 
-    image[doodle == 0] = 0
-
-    cv2.imshow("img", image)
-    cv2.waitKey(0)
-
-coloring(cv2.imread("gallery/image1.png"))
