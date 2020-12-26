@@ -64,7 +64,7 @@ def get_objects(boxes, classes):
     return boxes2, objs
 
 
-def drawing(boxes, objs):
+def drawing(boxes, objs, colors):
 
     surface = gz.Surface(width=720, height=560) # in pixels
     rect = gz.rectangle(lx=720, ly=560, xy=(360,280), fill=(1,1,1))
@@ -83,7 +83,7 @@ def drawing(boxes, objs):
             y = tuple([z+boxes[i][1] for z in y])
 
             points = list(zip(x, y))
-            line = gz.polyline(points=points, stroke=[0,0,0], stroke_width=2)
+            line = gz.polyline(points=points, stroke=[0,0,0], stroke_width=2, fill=colors[i])
             lines_list.append(line)
 
         lines = gz.Group(lines_list)
