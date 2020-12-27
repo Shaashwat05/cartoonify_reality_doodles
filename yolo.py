@@ -71,13 +71,12 @@ def yolo(image):
 
     #cv2.imshow("image", image)
     #cv2.waitKey(0)
-
-    cv2.imwrite("object1.png",image)
+    #cv2.imwrite("object1.png",image)
 
     return boxes, classIDs
 
 
-print(yolo(cv2.imread("gallery/image1.png")))
+#print(yolo(cv2.imread("gallery/image1.png")))
 
 
 
