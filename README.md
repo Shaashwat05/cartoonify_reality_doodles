@@ -32,10 +32,10 @@ Download a python interpeter preferable a version beyond 3.0. Install the prereq
 $cartoonify.py
 ```
 ## Original Image
-![The input Image to cartoonify.py]()
+![The input Image to cartoonify.py](https://github.com/Shaashwat05/cartoonify_reality_doodles/blob/master/gallery/image1.png)
 
 ## After Object Detection
-![The Output Image of object detection]()
+![The Output Image of object detection](https://github.com/Shaashwat05/cartoonify_reality_doodles/blob/master/gallery/object1.png)
 
 ## Doodled Image
 ![The Output Image of cartoonify.py]()
