@@ -2,7 +2,7 @@
 
 [![Python 3.6](https://img.shields.io/badge/python-3.6-green.svg)](https://www.python.org/downloads/release/python-360/) 
 
-# cartoonify_reality-doodles
+# cartoonify_reality_doodles
 
 The aim is to convert images into doodles using the google quickdraw dataset. This is different from your usual conversion that uses images processing algorithms like K Means Clustering. Firstly, the original image is taken and object detection performed. The yolo model in OpenCV is used to perform the following. Each object i.e. cars, humans are extracted with their positions and colors. The objects in question are extracted from the google quickdraw dataset in the form of doodles. These doodles are placed respectively to form the new image.
 
@@ -37,8 +37,9 @@ $cartoonify.py
 ## After Object Detection
 ![The Output Image of object detection](https://github.com/Shaashwat05/cartoonify_reality_doodles/blob/master/gallery/object1.png)
 
-## Doodled Image
-![The Output Image of cartoonify.py]()
+## Doodled Image 
+(Unfinished Output - Working on color and position accuracy)
+![The Output Image of cartoonify.py](https://github.com/Shaashwat05/cartoonify_reality_doodles/blob/master/gallery/circle.png)
 
 ## Built With
 
