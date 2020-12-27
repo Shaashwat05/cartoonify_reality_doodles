@@ -41,8 +41,10 @@ def unpack_drawings(filename):
 def get_objects(boxes, classes):
 
     objs = []
+    objs_p = []
     LABELS =open("yolo/coco.names").read().strip().split("\n")
     boxes2 = []
+    boxes_p = []
 
     i=-1
     for y_class in classes:
@@ -54,21 +56,39 @@ def get_objects(boxes, classes):
             for drawing in arr:
                 objs.append(drawing)
                 break
-        elif(y_class == 'person'):
-            pass
+
+        elif(LABELS[y_class] == 'person'):
+            face = unpack_drawings('dataset/face.bin')
+            tshirt = unpack_drawings('dataset/t-shirt.bin')
+            pants = unpack_drawings('dataset/pants.bin')
+
+            arr_p = [face, tshirt, pants]
+
+            obj = []
+            for k in arr_p:
+                for drawing  in k:
+                    obj.append(drawing)
+                    break
+            
+            objs_p.append(obj)
+            boxes_p.append(boxes[i])
 
         else:
             continue
 
     
-    return boxes2, objs
+    return boxes2, objs, boxes_p, objs_p
 
 
-def drawing(boxes, objs, colors):
+def drawing(boxes, objs, colors, classes):
 
     surface = gz.Surface(width=720, height=560) # in pixels
     rect = gz.rectangle(lx=720, ly=560, xy=(360,280), fill=(1,1,1))
     rect.draw(surface)
+
+    LABELS =open("yolo/coco.names").read().strip().split("\n")
+    colors = [colors[i] for i in range(len(colors)) if LABELS[classes[i]] != 'person']
+    #print(len(colors))
 
     i=0
     for strokes in objs:
@@ -90,7 +110,46 @@ def drawing(boxes, objs, colors):
         lines.draw(surface)
         i+=1
 
+    #surface.write_to_png("gallery/circle.png")
+    return surface
+
+
+def draw_person(surface, boxes, objs, colors):
+
+    i=0
+    for obj in objs:
+        k = 0
+        for strokes in obj:
+            lines_list = []
+            for stroke in strokes['image']:
+                x, y = stroke
+
+                x = tuple([(z*boxes[i][2])//255 for z in x])
+                y = tuple([(z*boxes[i][3])//255 for z in y])
+
+                x = tuple([z+boxes[i][0] for z in x])
+                y = tuple([z+boxes[i][1]+((k*boxes[i][3])//255) for z in y])
+
+                points = list(zip(x, y))
+                line = gz.polyline(points=points, stroke=[0,0,0], stroke_width=2, fill=colors[i])
+                lines_list.append(line)
+
+            lines = gz.Group(lines_list)
+            lines.draw(surface)
+            k+=160
+        i+=1
+    
     surface.write_to_png("gallery/circle.png")
+
+
+
+
+
+            
+
+
+    
+    
 
 
 
