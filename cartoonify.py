@@ -16,8 +16,9 @@ boxes_final, objs, boxes_person, objs_person = get_objects(boxes, classes)
 # Coloring the sketched image
 colors = coloring(boxes, image)
 colors = list(np.array(colors)/255)
+print(colors)
 
 
 # Drawing colored doodles
 surface = drawing(boxes_final, objs, colors, classes)
-draw_person(surface, boxes_person, objs_person, colors)
+draw_person(surface, boxes_person, objs_person, colors, classes)

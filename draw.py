@@ -58,17 +58,21 @@ def get_objects(boxes, classes):
                 break
 
         elif(LABELS[y_class] == 'person'):
-            face = unpack_drawings('dataset/face.bin')
+            face = unpack_drawings('dataset/smiley face.bin')
             tshirt = unpack_drawings('dataset/t-shirt.bin')
             pants = unpack_drawings('dataset/pants.bin')
 
             arr_p = [face, tshirt, pants]
 
             obj = []
+            
             for k in arr_p:
+                m=0
                 for drawing  in k:
-                    obj.append(drawing)
-                    break
+                    if(m==9):
+                        obj.append(drawing)
+                        break
+                    m+=1
             
             objs_p.append(obj)
             boxes_p.append(boxes[i])
@@ -114,7 +118,10 @@ def drawing(boxes, objs, colors, classes):
     return surface
 
 
-def draw_person(surface, boxes, objs, colors):
+def draw_person(surface, boxes, objs, colors, classes):
+
+    LABELS =open("yolo/coco.names").read().strip().split("\n")
+    colors = [colors[i] for i in range(len(colors)) if LABELS[classes[i]] == 'person']
 
     i=0
     for obj in objs:
@@ -131,12 +138,13 @@ def draw_person(surface, boxes, objs, colors):
                 y = tuple([z+boxes[i][1]+((k*boxes[i][3])//255) for z in y])
 
                 points = list(zip(x, y))
+                #print(colors[i])
                 line = gz.polyline(points=points, stroke=[0,0,0], stroke_width=2, fill=colors[i])
                 lines_list.append(line)
 
             lines = gz.Group(lines_list)
             lines.draw(surface)
-            k+=160
+            k+=200
         i+=1
     
     surface.write_to_png("gallery/circle.png")
